@@ -6,3 +6,12 @@
 //
 
 import Foundation
+import StocksAPI
+
+@main
+struct StocksAPIExec {
+    
+    static func main() async {
+        print(StocksAPI().text)
+    }
+}
