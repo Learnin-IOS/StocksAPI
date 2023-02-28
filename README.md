@@ -12,6 +12,7 @@ This is a library that leverages Yahoo Finance REST API and provides very simple
 
 
 ###Swift Package Manager
+Here is how you proceed to add it to your project:
 
 File > Swift Packages > Add Package Dependency
 Add https://github.com/Learnin-IOS/StocksAPI.git
