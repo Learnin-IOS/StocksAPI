@@ -1,6 +1,6 @@
 # StocksAPI
 
-This is a  library that provides very simple and Swiftly way to interact with Yahoo Finance REST API.
+This is a library that Yahoo Finance REST API and provides very simple and Swiftly way to interact with it.
 
 ##Features
 
