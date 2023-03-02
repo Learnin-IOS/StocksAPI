@@ -13,6 +13,28 @@ public struct StocksAPI {
     private let baseURL = "https://query1.finance.yahoo.com"
     public init() {}
     
+    
+    public func fetchChartData(symbol: String, range:ChartRange) async throws -> ChartData? {
+        guard var urlComponents = URLComponents(string:  "\(baseURL)/v8/finance/chart/\(symbol)") else {
+            throw APIError.invalidURL
+        }
+        urlComponents.queryItems = [
+            .init(name: "range", value: range.rawValue),
+            .init(name: "interval", value: range.interval),
+            .init(name: "indicators", value: "quote"),
+            .init(name: "includeTimestamps", value: "true")
+        ]
+        guard let url = urlComponents.url else {
+            throw APIError.invalidURL
+        }
+        
+        let (response, statusCode): (ChartResponse, Int) = try await fetch(url: url)
+        if let error = response.error {
+            throw APIError.httpStatusCodeFailed(statusCode: statusCode, error: error )
+        }
+        return response.data?.first
+    }
+    
     public func searchTickers(query: String, isEquityTypeOnly: Bool = true) async throws -> [Ticker] {
         guard var urlComponents = URLComponents(string:  "\(baseURL)/v1/finance/search") else {
             throw APIError.invalidURL
