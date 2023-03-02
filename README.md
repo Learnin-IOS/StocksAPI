@@ -37,14 +37,7 @@ let tickers = try await api.searchTickers(query: "TESLA")
 let quotes = try await api.fetchQuotes(symbols: "TSLA,GOOG,AAPL,MSFT")
 ```
 
-###  This is entirely Powered by Yahoo Finance API
-https://www.yahoo.com/?ilc=401
-
-### Yahoo Finance REST API Postman Collection Download Link:
-https://drive.google.com/file/d/1GzLBLGSE4nRjjj-bI0nSV0Un5VGiKO5j/view
-
-
-## Installation
+## Installation Guide
 
 ### Swift Package Manager
 Here is how you proceed to add it to your project:
@@ -53,3 +46,8 @@ Here is how you proceed to add it to your project:
 - Add https://github.com/Learnin-IOS/StocksAPI.git
 - Select "Main" branch
 
+**This is entirely Powered by Yahoo Finance API**
+https://www.yahoo.com/?ilc=401
+
+**Yahoo Finance REST API Postman Collection Download Link:**
+https://drive.google.com/file/d/1GzLBLGSE4nRjjj-bI0nSV0Un5VGiKO5j/view
