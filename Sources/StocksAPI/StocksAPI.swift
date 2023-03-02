@@ -13,6 +13,32 @@ public struct StocksAPI {
     private let baseURL = "https://query1.finance.yahoo.com"
     public init() {}
     
+    public func searchTickers(query: String, isEquityTypeOnly: Bool = true) async throws -> [Ticker] {
+        guard var urlComponents = URLComponents(string:  "\(baseURL)/v1/finance/search") else {
+            throw APIError.invalidURL
+        }
+        urlComponents.queryItems = [
+            .init(name: "q", value: query),
+            .init(name: "quotesCount", value: "20"),
+            .init(name: "lang", value: "en-US")
+        ]
+        guard let url = urlComponents.url else {
+            throw APIError.invalidURL
+        }
+        
+        let (response, statusCode): (SearchTickerResponse, Int) = try await fetch(url: url)
+        if let error = response.error {
+            throw APIError.httpStatusCodeFailed(statusCode: statusCode, error: error)
+        }
+        
+        if isEquityTypeOnly {
+            return (response.data ?? [])
+                .filter{ ($0.quoteType ?? "").localizedCaseInsensitiveCompare("equity") == .orderedSame }
+        } else {
+            return response.data ?? []
+        }
+    }
+    
     public func fetchQuotes(symbols: String) async throws -> [Quote] {
         guard var urlComponents = URLComponents(string:  "\(baseURL)/v7/finance/quote") else {
             throw APIError.invalidURL
@@ -28,6 +54,8 @@ public struct StocksAPI {
         }
         return response.data ?? []
     }
+    
+    
     
     private func fetch<D: Decodable>(url: URL) async throws -> (D, Int) {
         let (data, response) = try await session.data(from: url)
